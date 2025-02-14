@@ -4,8 +4,8 @@ import random
 from nltk.corpus import cmudict
 from nltk.tokenize import word_tokenize
 
-nltk.download('punkt')
-nltk.download('cmudict')
+nltk.download('punkt', quiet=True)
+nltk.download('cmudict', quiet=True)
 
 d = cmudict.dict()
 
