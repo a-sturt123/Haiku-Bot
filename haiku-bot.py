@@ -9,6 +9,8 @@ nltk.download('cmudict', quiet=True)
 
 d = cmudict.dict()
 
+DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1340337011764105216/zkcknnI6hz1fsBP0kH0V8n6hQWNK0jnVV2x714kZZIu_w11PbGVU9tVTv_JSZVYlg8am" 
+
 def syllable_count(word):
     word = word.lower()
     if word in d:
@@ -51,6 +53,10 @@ def fetch_headlines():
         return [article['title'] for article in response.json()['articles']]
     return []
 
+def send_to_discord(haiku):
+    data = {"content": haiku}
+    requests.post(DISCORD_WEBHOOK_URL, json=data)
+
 def main():
     headlines = fetch_headlines()
     random.shuffle(headlines)  
@@ -58,10 +64,8 @@ def main():
     for headline in headlines:
         haiku = generate_haiku(headline)
         if haiku:
-            print(f"Headline: {headline}\nGenerated Haiku:\n{haiku}")
-            return
-
-    print("No valid haiku could be generated.")
+            send_to_discord(haiku)
+            return  
 
 if __name__ == "__main__":
     main()
